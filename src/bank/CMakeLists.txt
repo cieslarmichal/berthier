@@ -21,6 +21,7 @@ include_directories("/usr/local/lib")
 add_library(bank ${SOURCES})
 target_link_libraries(bank ${LIBMONGOCXX_LIBRARIES})
 target_link_libraries(bank ${LIBBSONCXX_LIBRARIES})
+target_link_libraries(bank utils)
 target_include_directories(bank PUBLIC src)
 target_compile_options(bank PUBLIC -std=c++2a -Wall -Wextra)
 

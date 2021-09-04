@@ -1,6 +1,7 @@
 #include "MongoDb.h"
 
 #include <gmock/gmock.h>
+#include "StlOperators.h"
 
 using namespace bank::storage;
 using namespace ::testing;
@@ -13,5 +14,10 @@ public:
 
 TEST_F(MongoDbTest, insert)
 {
-    std::cerr << db.getAll("transactions")[0];
+    db.insert("transactions", R"({"name": "coffee", "amount": "8"})");
+}
+
+TEST_F(MongoDbTest, getAll)
+{
+    std::cerr << db.getAll("transactions");
 }
