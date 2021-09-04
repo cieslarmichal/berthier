@@ -2,7 +2,7 @@
 
 #include <gmock/gmock.h>
 
-using namespace bank;
+using namespace bank::storage;
 using namespace ::testing;
 
 class TransactionDbTest : public Test

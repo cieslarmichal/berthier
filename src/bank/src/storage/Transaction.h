@@ -4,7 +4,7 @@
 #include <string>
 #include <tuple>
 
-namespace bank
+namespace bank::storage
 {
 struct Transaction
 {

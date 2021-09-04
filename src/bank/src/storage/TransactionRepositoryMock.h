@@ -4,7 +4,7 @@
 
 #include "TransactionRepository.h"
 
-namespace bank
+namespace bank::storage
 {
 class TransactionRepositoryMock : public TransactionRepository
 {

@@ -2,9 +2,9 @@
 
 #include "gmock/gmock.h"
 
-#include "DocumentDb.h"
+#include "DocumentBasedDb.h"
 
-namespace bank
+namespace bank::storage
 {
 class DocumentDbMock : public DocumentDb
 {

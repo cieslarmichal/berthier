@@ -3,7 +3,7 @@
 #include "Transaction.h"
 #include <vector>
 
-namespace bank
+namespace bank::storage
 {
 class TransactionRepository
 {
