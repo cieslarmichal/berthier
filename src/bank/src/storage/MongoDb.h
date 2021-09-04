@@ -21,6 +21,5 @@ private:
     mongocxx::uri uri{"mongodb://localhost:27017"};
     mongocxx::client client{uri};
     mongocxx::database db;
-    mongocxx::collection transactions;
 };
 }

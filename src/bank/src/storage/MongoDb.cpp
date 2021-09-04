@@ -16,37 +16,34 @@ namespace bank::storage
 {
 MongoDb::MongoDb(const std::string& dbName)
 {
-//    db = client["transactionsDb"];
+    //    db = client["transactionsDb"];
     db = client[dbName];
 }
 
 void MongoDb::insert(const std::string& collection, const std::string& jsonDocument)
 {
-//    transactions = db["transactions"];
-    transactions = db[collection];
+    //    transactions = db["transactions"];
+    auto transactions = db[collection];
 
-    auto builder = bsoncxx::builder::stream::document{};
-    bsoncxx::document::value doc_value = builder << "name"
-                                                 << "desk"
-                                                 << "amount"
-                                                 << 400 << bsoncxx::builder::stream::finalize;
-    //    bsoncxx::document::value bsonObj = bsoncxx::from_json(R"({
-    //"name":"aaa",
-    //"amount":100
-    //})");
-    bsoncxx::document::view view = doc_value.view();
+    const auto bsonObj = bsoncxx::from_json(jsonDocument);
+    const auto view = bsonObj.view();
 
-    bsoncxx::stdx::optional<mongocxx::result::insert_one> result =
-        transactions.insert_one(view);
-    if (result)
-    {
-        std::cerr <<"success";
-    }
-
+    transactions.insert_one(view);
 }
 
 std::vector<std::string> MongoDb::getAll(const std::string& collection) const
 {
-    return {};
+    auto transactions = db[collection];
+
+    mongocxx::cursor cursor = transactions.find(document{} << finalize);
+
+    std::vector<std::string> documents;
+
+    for (auto doc : cursor)
+    {
+        documents.push_back(bsoncxx::to_json(doc));
+    }
+
+    return documents;
 }
 }
