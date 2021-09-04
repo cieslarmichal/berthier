@@ -1,6 +1,5 @@
 
-#add_subdirectory(xx)
-
+add_subdirectory(bank)
 
 find_package(libmongocxx REQUIRED)
 find_package(libbsoncxx REQUIRED)

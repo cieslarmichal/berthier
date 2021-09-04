@@ -23,12 +23,7 @@ int main()
     mongocxx::instance instance{}; // This should be done only once.
     mongocxx::client client{mongocxx::uri{}};
 
-    cpr::Response r = cpr::Get(cpr::Url{"https://api.github.com/repos/whoshuu/cpr/contributors"},
-                               cpr::Authentication{"user", "pass"},
-                               cpr::Parameters{{"anon", "true"}, {"key", "value"}});
-    r.status_code;                  // 200
-    r.header["content-type"];       // application/json; charset=utf-8
-    r.text;                         // JSON text string
-
+    cpr::Response r = cpr::Get(cpr::Url{"https://www.facebook.com"});
+    std::cerr <<r.status_code;
     return 0;
 }
