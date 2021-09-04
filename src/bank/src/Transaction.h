@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include <string>
+#include <tuple>
 
 namespace bank
 {

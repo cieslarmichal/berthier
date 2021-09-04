@@ -1,10 +1,20 @@
 set(SOURCES
-        src/dummy.cpp
+        src/TransactionDb.cpp
         )
 
 set(UT_SOURCES
-        src/dummy.cpp
+        src/TransactionDbTest.cpp
         )
+
+find_package(libmongocxx REQUIRED)
+find_package(libbsoncxx REQUIRED)
+include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+include_directories(${LIBBSONCXX_INCLUDE_DIR})
+include_directories("/usr/local/include/mongocxx/v_noabi")
+include_directories("/usr/local/include/bsoncxx/v_noabi")
+include_directories("/usr/local/include/libmongoc-1.0")
+include_directories("/usr/local/include/libbson-1.0")
+include_directories("/usr/local/lib")
 
 add_library(bank STATIC ${SOURCES})
 target_link_libraries(bank ${LIBMONGOCXX_LIBRARIES})
