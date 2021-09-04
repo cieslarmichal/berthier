@@ -1,9 +1,9 @@
 set(SOURCES
-        dummy.cpp
+        src/dummy.cpp
         )
 
 set(UT_SOURCES
-        dummy.cpp
+        src/dummy.cpp
         )
 
 add_library(bank STATIC ${SOURCES})
