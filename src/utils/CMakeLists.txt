@@ -1,9 +1,11 @@
 set(SOURCES
         src/StringHelper.cpp
+        src/Date.cpp
         )
 
 set(UT_SOURCES
         src/StringHelperTest.cpp
+        src/DateTest.cpp
         )
 
 add_library(utils STATIC ${SOURCES})
