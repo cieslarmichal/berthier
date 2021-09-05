@@ -14,28 +14,29 @@ using bsoncxx::builder::stream::open_document;
 
 namespace bank::storage
 {
-MongoDb::MongoDb(const std::string& dbName)
+MongoDb::MongoDb(const std::string& host, unsigned port, const std::string& dbName)
 {
-    //    db = client["transactionsDb"];
-    db = client[dbName];
+    mongocxx::uri uri{"mongodb://" + host + ":" + std::to_string(port)};
+//    "mongodb://localhost:27017"
+    client = std::make_unique<mongocxx::client>(uri);
+    db = (*client)[dbName];
 }
 
-void MongoDb::insert(const std::string& collection, const std::string& jsonDocument)
+void MongoDb::insertDocument(const std::string& collectionName, const std::string& jsonDocument)
 {
-    //    transactions = db["transactions"];
-    auto transactions = db[collection];
+    auto collection = db[collectionName];
 
     const auto bsonObj = bsoncxx::from_json(jsonDocument);
     const auto view = bsonObj.view();
 
-    transactions.insert_one(view);
+    collection.insert_one(view);
 }
 
-std::vector<std::string> MongoDb::getAll(const std::string& collection) const
+std::vector<std::string> MongoDb::getAllDocuments(const std::string& collectionName) const
 {
-    auto transactions = db[collection];
+    auto collection = db[collectionName];
 
-    mongocxx::cursor cursor = transactions.find(document{} << finalize);
+    mongocxx::cursor cursor = collection.find(document{} << finalize);
 
     std::vector<std::string> documents;
 
@@ -46,4 +47,11 @@ std::vector<std::string> MongoDb::getAll(const std::string& collection) const
 
     return documents;
 }
+
+void MongoDb::dropCollection(const std::string& collectionName)
+{
+    auto collection = db[collectionName];
+    collection.drop();
+}
+
 }

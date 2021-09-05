@@ -11,15 +11,15 @@ namespace bank::storage
 class MongoDb : public DocumentBasedDb
 {
 public:
-    explicit MongoDb(const std::string& dbName);
+    MongoDb(const std::string& host, unsigned port, const std::string& dbName);
 
-    void insert(const std::string& collection, const std::string& jsonDocument) override;
-    std::vector<std::string> getAll(const std::string& collection) const override;
+    void insertDocument(const std::string& collectionName, const std::string& jsonDocument) override;
+    std::vector<std::string> getAllDocuments(const std::string& collectionName) const override;
+    void dropCollection(const std::string& collectionName) override;
 
 private:
-    mongocxx::instance instance{};
-    mongocxx::uri uri{"mongodb://localhost:27017"};
-    mongocxx::client client{uri};
+    mongocxx::instance instance;
+    std::unique_ptr<mongocxx::client> client;
     mongocxx::database db;
 };
 }
