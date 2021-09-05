@@ -10,6 +10,6 @@ public:
     explicit TransactionDb();
 
     void add(const Transaction&) override;
-    std::vector<Transaction> getTransactions() const override;
+    std::vector<Transaction> getAll() const override;
 };
 }
