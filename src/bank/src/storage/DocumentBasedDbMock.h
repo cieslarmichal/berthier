@@ -6,7 +6,7 @@
 
 namespace bank::storage
 {
-class DocumentDbMock : public DocumentDb
+class DocumentBasedDbMock : public DocumentBasedDb
 {
 public:
     MOCK_METHOD(void, insertDocument, (const std::string& collectionName, const std::string& jsonDocument), (override));
