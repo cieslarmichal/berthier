@@ -11,6 +11,7 @@ set(UT_SOURCES
         src/storage/TransactionJsonSerializerTest.cpp
         )
 
+
 find_package(libmongocxx REQUIRED)
 find_package(libbsoncxx REQUIRED)
 include_directories(${LIBMONGOCXX_INCLUDE_DIR})
@@ -23,7 +24,9 @@ include_directories("/usr/local/lib")
 
 add_library(bank STATIC ${SOURCES})
 target_link_libraries(bank ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} utils)
-target_include_directories(bank PUBLIC src)
+target_include_directories(bank PUBLIC
+        ${JSON_INCLUDE_DIR}
+        )
 target_compile_options(bank PUBLIC -std=c++2a -Wall -Wextra)
 
 add_executable(bankUT ${UT_SOURCES})

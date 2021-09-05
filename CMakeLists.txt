@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.20)
 
 project(berthier CXX)
 
@@ -17,8 +17,10 @@ else()
   add_compile_options(-std=c++2a -Wall -Wextra)
   set(FLAGS -std=c++2a -Wall -Wextra)
 endif()
+
 set(GMOCK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/googletest/googlemock/include")
 set(GTEST_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/googletest/googletest/include")
+set(JSON_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/json/include")
 
 enable_testing()
 option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
@@ -28,5 +30,4 @@ if(${ENABLE_COVERAGE})
 endif()
 
 add_subdirectory(src)
-
 
