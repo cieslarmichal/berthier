@@ -1,11 +1,14 @@
 set(SOURCES
         src/storage/TransactionDb.cpp
         src/storage/MongoDb.cpp
+        src/storage/TransactionJsonSerializer.cpp
         )
 
 set(UT_SOURCES
         src/storage/TransactionDbTest.cpp
         src/storage/MongoDbTest.cpp
+        src/storage/MongoDbTest.cpp
+        src/storage/TransactionJsonSerializerTest.cpp
         )
 
 find_package(libmongocxx REQUIRED)
