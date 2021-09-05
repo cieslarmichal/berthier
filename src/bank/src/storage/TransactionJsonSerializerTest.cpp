@@ -11,7 +11,7 @@ namespace
 {
 const auto transaction = Transaction{"water", "shop", "food", 3, "date"};
 const std::string serializedTransaction =
-    R"({"name":"water","recipient":"shop","category":"food","amount":3,"date":"date"})";
+    R"({"amount":3,"category":"food","date":"date","name":"water","recipient":"shop"})";
 const std::string serializedTransactionWithoutNameField =
     R"({"recipient":"shop","category":"food","amount":3,"date":"date"})";
 const std::string serializedTransactionWithoutRecipientField =

@@ -2,38 +2,66 @@
 
 #include "nlohmann/json.hpp"
 
+#include "exceptions/InvalidJsonDocumentWithTransaction.h"
+
 namespace bank::storage
 {
-
-
-//namespace nlohmann {
-//void from_json(const json & j, bank::storage::transaction & x);
-//void to_json(json & j, const bank::storage::transaction & x);
-//
-//inline void from_json(const json & j, bank::storage::transaction& x) {
-//    x.setName(j.at("name").get<std::string>());
-//    x.setRecipient(j.at("recipient").get<std::string>());
-//    x.setCategory(j.at("category").get<std::string>());
-//    x.setAmount(j.at("amount").get<int64_t>());
-//    x.setDate(j.at("date").get<std::string>());
-//}
-//
-//inline void to_json(json & j, const bank::storage::transaction & x) {
-//    j = json::object();
-//    j["name"] = x.getName();
-//    j["recipient"] = x.getRecipient();
-//    j["category"] = x.getCategory();
-//    j["amount"] = x.getAmount();
-//    j["date"] = x.getDate();
-//}
-
-std::string TransactionJsonSerializer::serialize(const Transaction&) const
+namespace
 {
-    return std::string();
+constexpr auto nameField = "name";
+constexpr auto recipientField = "recipient";
+constexpr auto categoryField = "category";
+constexpr auto amountField = "amount";
+constexpr auto dateField = "date";
+const std::vector<std::string> requiredFields{nameField, recipientField, categoryField, amountField,
+                                              dateField};
 }
 
-Transaction TransactionJsonSerializer::deserialize(const std::string&) const
+std::string TransactionJsonSerializer::serialize(const Transaction& transaction) const
 {
-    return Transaction();
+    nlohmann::json val = nlohmann::json::object();
+    val[nameField] = transaction.name;
+    val[recipientField] = transaction.recipient;
+    val[categoryField] = transaction.category;
+    val[amountField] = transaction.amount;
+    val[dateField] = transaction.date;
+    return val.dump();
+}
+
+Transaction TransactionJsonSerializer::deserialize(const std::string& jsonText) const
+{
+    try
+    {
+        const auto json = nlohmann::json::parse(jsonText);
+        return parseTransaction(json);
+    }
+    catch (const std::exception& e)
+    {
+        throw exceptions::InvalidJsonDocumentWithTransaction{"Unable to parse transaction json document"};
+    }
+}
+
+Transaction TransactionJsonSerializer::parseTransaction(const nlohmann::json& transactionJson) const
+{
+    if (not transactionJsonHasAllRequiredFields(transactionJson))
+    {
+        throw exceptions::InvalidJsonDocumentWithTransaction{"Transaction json missing required fields"};
+    }
+
+    const auto name = transactionJson.at(nameField).get<std::string>();
+    const auto recipient = transactionJson.at(recipientField).get<std::string>();
+    const auto category = transactionJson.at(categoryField).get<std::string>();
+    const unsigned amount = transactionJson.at(amountField).get<std::int64_t>();
+    const auto date = transactionJson.at(dateField).get<std::string>();
+    return Transaction{name, recipient, category, amount, date};
+}
+
+bool TransactionJsonSerializer::transactionJsonHasAllRequiredFields(
+    const nlohmann::json& transactionJson) const
+{
+    auto transactionIsValid = std::all_of(
+        requiredFields.begin(), requiredFields.end(),
+        [&](const auto& fieldName) { return transactionJson.find(fieldName) != transactionJson.end(); });
+    return transactionIsValid;
 }
 }
