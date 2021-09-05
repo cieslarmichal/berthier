@@ -24,13 +24,11 @@ include_directories("/usr/local/lib")
 
 add_library(bank STATIC ${SOURCES})
 target_link_libraries(bank ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES} utils)
-target_include_directories(bank PUBLIC
-        ${JSON_INCLUDE_DIR}
-        )
-target_compile_options(bank PUBLIC -std=c++2a -Wall -Wextra)
+target_include_directories(bank PUBLIC src ${JSON_INCLUDE_DIR})
+target_compile_options(bank PUBLIC ${FLAGS})
 
 add_executable(bankUT ${UT_SOURCES})
 target_link_libraries(bankUT PUBLIC gmock_main gtest bank)
-target_compile_options(bankUT PUBLIC -std=c++2a -Wall -Wextra)
+target_compile_options(bankUT PUBLIC ${FLAGS})
 add_test(NAME bankUT COMMAND bankUT WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
