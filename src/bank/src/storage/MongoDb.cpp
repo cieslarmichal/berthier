@@ -17,30 +17,26 @@ namespace bank::storage
 MongoDb::MongoDb(const std::string& host, unsigned port, const std::string& dbName)
 {
     mongocxx::uri uri{"mongodb://" + host + ":" + std::to_string(port)};
-//    "mongodb://localhost:27017"
     client = std::make_unique<mongocxx::client>(uri);
     db = (*client)[dbName];
 }
 
 void MongoDb::insertDocument(const std::string& collectionName, const std::string& jsonDocument)
 {
-    auto collection = db[collectionName];
-
     const auto bsonObj = bsoncxx::from_json(jsonDocument);
     const auto view = bsonObj.view();
-
+    auto collection = db[collectionName];
     collection.insert_one(view);
 }
 
 std::vector<std::string> MongoDb::getAllDocuments(const std::string& collectionName) const
 {
     auto collection = db[collectionName];
-
     mongocxx::cursor cursor = collection.find(document{} << finalize);
 
     std::vector<std::string> documents;
 
-    for (auto doc : cursor)
+    for (const auto& doc : cursor)
     {
         documents.push_back(bsoncxx::to_json(doc));
     }

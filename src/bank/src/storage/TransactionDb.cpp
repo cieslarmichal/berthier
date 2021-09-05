@@ -11,7 +11,7 @@ void TransactionDb::add(const Transaction&)
 {
 }
 
-std::vector<Transaction> TransactionDb::getTransactions() const
+std::vector<Transaction> TransactionDb::getAll() const
 {
     return {};
 }
