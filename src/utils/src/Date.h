@@ -1,18 +1,18 @@
 #pragma once
 
 #include <string>
+#include <date/date.h>
+#include <chrono>
 
 namespace utils
 {
 struct Date
 {
     explicit Date();
-    Date(unsigned secondsSinceEpoch);
     Date(unsigned year, unsigned month, unsigned day);
 
-    time_t getSecondsSinceEpoch() const;
     std::string toString() const;
 
-    unsigned year, month, day;
+    date::year_month_day yearMonthDay;
 };
 }
