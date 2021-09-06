@@ -9,17 +9,17 @@ using namespace bank::storage;
 
 namespace
 {
-const auto transaction = Transaction{"water", "shop", "food", 3, "date"};
+const auto transaction = Transaction{"water", "shop", "food", 3, utils::Date{"2021-09-10"}};
 const std::string serializedTransaction =
-    R"({"amount":3,"category":"food","date":"date","name":"water","recipient":"shop"})";
+    R"({"amount":3,"category":"food","date":"2021-09-10","name":"water","recipient":"shop"})";
 const std::string serializedTransactionWithoutNameField =
-    R"({"recipient":"shop","category":"food","amount":3,"date":"date"})";
+    R"({"recipient":"shop","category":"food","amount":3,"date":"2021-09-10"})";
 const std::string serializedTransactionWithoutRecipientField =
-    R"({"name":"water","category":"food","amount":3,"date":"date"})";
+    R"({"name":"water","category":"food","amount":3,"date":"2021-09-10"})";
 const std::string serializedTransactionWithoutCategoryField =
-    R"({"name":"water","recipient":"shop","amount":3,"date":"date"})";
+    R"({"name":"water","recipient":"shop","amount":3,"date":"2021-09-10"})";
 const std::string serializedTransactionWithoutAmountField =
-    R"({"name":"water","recipient":"shop","category":"food","date":"date"})";
+    R"({"name":"water","recipient":"shop","category":"food","date":"2021-09-10"})";
 const std::string serializedTransactionWithoutDateField =
     R"({"name":"water","recipient":"shop","category":"food","amount":3})";
 const std::string invalidJson{"{."};

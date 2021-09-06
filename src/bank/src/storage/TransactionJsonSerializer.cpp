@@ -24,7 +24,7 @@ std::string TransactionJsonSerializer::serialize(const Transaction& transaction)
     val[recipientField] = transaction.recipient;
     val[categoryField] = transaction.category;
     val[amountField] = transaction.amount;
-    val[dateField] = transaction.date;
+    val[dateField] = transaction.date.toString();
     return val.dump();
 }
 
@@ -53,7 +53,7 @@ Transaction TransactionJsonSerializer::parseTransaction(const nlohmann::json& tr
     const auto category = transactionJson.at(categoryField).get<std::string>();
     const unsigned amount = transactionJson.at(amountField).get<std::int64_t>();
     const auto date = transactionJson.at(dateField).get<std::string>();
-    return Transaction{name, recipient, category, amount, date};
+    return Transaction{name, recipient, category, amount, utils::Date{date}};
 }
 
 bool TransactionJsonSerializer::transactionJsonHasAllRequiredFields(

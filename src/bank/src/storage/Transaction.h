@@ -3,6 +3,7 @@
 #include <ostream>
 #include <string>
 #include <tuple>
+#include "Date.h"
 
 namespace bank::storage
 {
@@ -12,7 +13,7 @@ struct Transaction
     std::string recipient;
     std::string category;
     unsigned int amount;
-    std::string date;
+    utils::Date date;
 };
 
 inline bool operator==(const Transaction& lhs, const Transaction& rhs)
