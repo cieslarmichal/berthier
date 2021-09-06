@@ -21,6 +21,7 @@ endif()
 set(GMOCK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/googletest/googlemock/include")
 set(GTEST_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/googletest/googletest/include")
 set(JSON_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/json/include")
+set(DATE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/externals/date/include")
 
 enable_testing()
 option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)

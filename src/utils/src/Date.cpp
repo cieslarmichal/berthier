@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <date/date.h>
 
 namespace utils
 {
@@ -15,9 +16,6 @@ Date::Date()
     year = 1900 + timeInfo->tm_year;
     month = timeInfo->tm_mon + 1;
     day = timeInfo->tm_mday;
-    hour = timeInfo->tm_hour;
-    minute = timeInfo->tm_min;
-    second = timeInfo->tm_sec;
 }
 
 Date::Date(unsigned int secondsSinceEpoch)
@@ -29,14 +27,10 @@ Date::Date(unsigned int secondsSinceEpoch)
     year = 1900 + timeInfo->tm_year;
     month = timeInfo->tm_mon + 1;
     day = timeInfo->tm_mday;
-    hour = timeInfo->tm_hour;
-    minute = timeInfo->tm_min;
-    second = timeInfo->tm_sec;
 }
 
-Date::Date(unsigned int year, unsigned int month, unsigned int day, unsigned int hour, unsigned int minute,
-           unsigned int second)
-    : year{year}, month{month}, day{day}, hour{hour}, minute{minute}, second{second}
+Date::Date(unsigned int year, unsigned int month, unsigned int day)
+    : year{year}, month{month}, day{day}
 {
 }
 
@@ -46,9 +40,6 @@ time_t Date::getSecondsSinceEpoch() const
     tm.tm_year = static_cast<int>(year)-1900;
     tm.tm_mon = static_cast<int>(month)-1;
     tm.tm_mday = static_cast<int>(day);
-    tm.tm_hour = static_cast<int>(hour);
-    tm.tm_min = static_cast<int>(minute);
-    tm.tm_sec = static_cast<int>(second);
     tm.tm_isdst = -1;
 
     std::stringstream ss("Jan 9 2014 12:35:34");

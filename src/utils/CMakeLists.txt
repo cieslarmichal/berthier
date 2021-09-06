@@ -9,7 +9,7 @@ set(UT_SOURCES
         )
 
 add_library(utils STATIC ${SOURCES})
-target_include_directories(utils PUBLIC src ${Boost_INCLUDE_DIR})
+target_include_directories(utils PUBLIC src ${Boost_INCLUDE_DIR} ${DATE_INCLUDE_DIR})
 target_compile_options(utils PUBLIC ${FLAGS})
 
 add_executable(utilsUT ${UT_SOURCES})
