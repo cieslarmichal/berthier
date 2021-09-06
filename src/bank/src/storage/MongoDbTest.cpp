@@ -113,7 +113,7 @@ TEST_F(MongoDbTest, givenNoDocumentsMatchingFilter_findDocumentsByStringField_sh
     db->insertDocument(collectionName4, document1);
     db->insertDocument(collectionName4, document2);
 
-    const auto allDocuments = db->findDocumentsByField(collectionName4, "name", "xxx");
+    const auto allDocuments = db->findDocumentsByFieldValue(collectionName4, "name", "xxx");
 
     ASSERT_EQ(allDocuments.size(), 0);
 }
@@ -123,7 +123,7 @@ TEST_F(MongoDbTest, givenDocumentMatchingFilter_findDocumentsByStringField_shoul
     db->insertDocument(collectionName5, document1);
     db->insertDocument(collectionName5, document2);
 
-    const auto allDocuments = db->findDocumentsByField(collectionName5, "name", "coffee");
+    const auto allDocuments = db->findDocumentsByFieldValue(collectionName5, "name", "coffee");
 
     ASSERT_EQ(allDocuments.size(), 1);
     ASSERT_TRUE(containsField(allDocuments[0], expectedField1InDocument1));
@@ -135,7 +135,7 @@ TEST_F(MongoDbTest, givenNoDocumentsMatchingFilter_findDocumentsByIntField_shoul
     db->insertDocument(collectionName6, document1);
     db->insertDocument(collectionName6, document2);
 
-    const auto allDocuments = db->findDocumentsByField(collectionName6, "amount", 20);
+    const auto allDocuments = db->findDocumentsByFieldValue(collectionName6, "amount", 20);
 
     ASSERT_EQ(allDocuments.size(), 0);
 }
@@ -145,7 +145,7 @@ TEST_F(MongoDbTest, givenDocumentsMatchingFilter_findDocumentsByIntField_shouldR
     db->insertDocument(collectionName7, document2);
     db->insertDocument(collectionName7, document3);
 
-    const auto allDocuments = db->findDocumentsByField(collectionName7, "amount", 3);
+    const auto allDocuments = db->findDocumentsByFieldValue(collectionName7, "amount", 3);
 
     ASSERT_EQ(allDocuments.size(), 2);
     ASSERT_TRUE(containsField(allDocuments[0], expectedField1InDocument2));
@@ -159,7 +159,7 @@ TEST_F(MongoDbTest, givenDocumentsMatchingFilter_findDocumentsByIntField_shouldR
     db->insertDocument(collectionName8, document2);
     db->insertDocument(collectionName8, document3);
 
-    const auto allDocuments = db->findDocumentsByField(collectionName8, "amount", 3);
+    const auto allDocuments = db->findDocumentsByFieldValue(collectionName8, "amount", 3);
 
     ASSERT_EQ(allDocuments.size(), 2);
     ASSERT_TRUE(containsField(allDocuments[0], expectedField1InDocument2));

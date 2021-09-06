@@ -13,11 +13,11 @@ public:
                 (override));
     MOCK_METHOD(std::vector<std::string>, findAllDocuments, (const std::string& collectionName),
                 (const override));
-    MOCK_METHOD(std::vector<std::string>, findDocumentsByField,
+    MOCK_METHOD(std::vector<std::string>, findDocumentsByFieldValue,
                 (const std::string& collectionName, const std::string& fieldName,
                  const std::string& fieldValue),
                 (const override));
-    MOCK_METHOD(std::vector<std::string>, findDocumentsByField,
+    MOCK_METHOD(std::vector<std::string>, findDocumentsByFieldValue,
                 (const std::string& collectionName, const std::string& fieldName, int fieldValue),
                 (const override));
     MOCK_METHOD(void, dropCollection, (const std::string& collectionName), (override));

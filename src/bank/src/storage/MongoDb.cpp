@@ -68,14 +68,14 @@ std::vector<std::string> MongoDb::findAllDocuments(const std::string& collection
     return documents;
 }
 
-std::vector<std::string> MongoDb::findDocumentsByField(const std::string& collectionName,
+std::vector<std::string> MongoDb::findDocumentsByFieldValue(const std::string& collectionName,
                                                        const std::string& fieldName,
                                                        const std::string& fieldValue) const
 {
     return findDocumentsByFieldInDb(db, collectionName, fieldName, fieldValue);
 }
 
-std::vector<std::string> MongoDb::findDocumentsByField(const std::string& collectionName,
+std::vector<std::string> MongoDb::findDocumentsByFieldValue(const std::string& collectionName,
                                                        const std::string& fieldName, int fieldValue) const
 {
     return findDocumentsByFieldInDb(db, collectionName, fieldName, fieldValue);

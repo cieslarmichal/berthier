@@ -15,10 +15,10 @@ public:
 
     void insertDocument(const std::string& collectionName, const std::string& jsonDocument) override;
     std::vector<std::string> findAllDocuments(const std::string& collectionName) const override;
-    std::vector<std::string> findDocumentsByField(const std::string& collectionName,
+    std::vector<std::string> findDocumentsByFieldValue(const std::string& collectionName,
                                                   const std::string& fieldName,
                                                   const std::string& fieldValue) const override;
-    std::vector<std::string> findDocumentsByField(const std::string& collectionName,
+    std::vector<std::string> findDocumentsByFieldValue(const std::string& collectionName,
                                                   const std::string& fieldName,
                                                   int fieldValue) const override;
     void dropCollection(const std::string& collectionName) override;
