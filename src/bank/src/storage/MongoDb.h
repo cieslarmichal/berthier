@@ -21,6 +21,9 @@ public:
     std::vector<std::string> findDocumentsByFieldValue(const std::string& collectionName,
                                                   const std::string& fieldName,
                                                   int fieldValue) const override;
+    std::vector<std::string> findDocumentsByFieldValueLike(const std::string& collectionName,
+                                                                   const std::string& fieldName,
+                                                                   const std::string& fieldValueLike) const override;
     void dropCollection(const std::string& collectionName) override;
     void replaceDocument(const std::string& collectionName, const std::string& id,
                          const std::string& jsonDocument) override;

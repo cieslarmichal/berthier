@@ -69,16 +69,35 @@ std::vector<std::string> MongoDb::findAllDocuments(const std::string& collection
 }
 
 std::vector<std::string> MongoDb::findDocumentsByFieldValue(const std::string& collectionName,
-                                                       const std::string& fieldName,
-                                                       const std::string& fieldValue) const
+                                                            const std::string& fieldName,
+                                                            const std::string& fieldValue) const
 {
     return findDocumentsByFieldInDb(db, collectionName, fieldName, fieldValue);
 }
 
 std::vector<std::string> MongoDb::findDocumentsByFieldValue(const std::string& collectionName,
-                                                       const std::string& fieldName, int fieldValue) const
+                                                            const std::string& fieldName,
+                                                            int fieldValue) const
 {
     return findDocumentsByFieldInDb(db, collectionName, fieldName, fieldValue);
+}
+
+std::vector<std::string> MongoDb::findDocumentsByFieldValueLike(const std::string& collectionName,
+                                                                const std::string& fieldName,
+                                                                const std::string& fieldValueLike) const
+{
+    auto collection = db[collectionName];
+    mongocxx::cursor cursor =
+        collection.find(document{} << fieldName << bsoncxx::types::b_regex{fieldValueLike} << finalize);
+
+    std::vector<std::string> documents;
+
+    for (const auto& doc : cursor)
+    {
+        documents.push_back(bsoncxx::to_json(doc));
+    }
+
+    return documents;
 }
 
 void MongoDb::dropCollection(const std::string& collectionName)
