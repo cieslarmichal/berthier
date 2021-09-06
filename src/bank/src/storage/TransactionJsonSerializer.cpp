@@ -8,18 +8,21 @@ namespace bank::storage
 {
 namespace
 {
+constexpr auto idField = "_id";
+constexpr auto nestedIdField = "$oid";
 constexpr auto nameField = "name";
 constexpr auto recipientField = "recipient";
 constexpr auto categoryField = "category";
 constexpr auto amountField = "amount";
 constexpr auto dateField = "date";
-const std::vector<std::string> requiredFields{nameField, recipientField, categoryField, amountField,
-                                              dateField};
+const std::vector<std::string> requiredFields{idField,       nameField,   recipientField,
+                                              categoryField, amountField, dateField};
 }
 
 std::string TransactionJsonSerializer::serialize(const Transaction& transaction) const
 {
     nlohmann::json val = nlohmann::json::object();
+    // not serializing id because it will be added in db
     val[nameField] = transaction.name;
     val[recipientField] = transaction.recipient;
     val[categoryField] = transaction.category;
@@ -48,12 +51,13 @@ Transaction TransactionJsonSerializer::parseTransaction(const nlohmann::json& tr
         throw exceptions::InvalidJsonDocumentWithTransaction{"Transaction json missing required fields"};
     }
 
+    const auto id = transactionJson.at(idField).at(nestedIdField).get<std::string>();
     const auto name = transactionJson.at(nameField).get<std::string>();
     const auto recipient = transactionJson.at(recipientField).get<std::string>();
     const auto category = transactionJson.at(categoryField).get<std::string>();
     const unsigned amount = transactionJson.at(amountField).get<std::int64_t>();
     const auto date = transactionJson.at(dateField).get<std::string>();
-    return Transaction{name, recipient, category, amount, utils::Date{date}};
+    return Transaction{id, name, recipient, category, amount, utils::Date{date}};
 }
 
 bool TransactionJsonSerializer::transactionJsonHasAllRequiredFields(

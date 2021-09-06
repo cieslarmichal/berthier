@@ -28,4 +28,10 @@ std::vector<Transaction> TransactionDb::getAll() const
 
     return transactions;
 }
+
+void TransactionDb::update(const std::string& id, const Transaction& transaction)
+{
+    const auto serializedTransaction = serializer->serialize(transaction);
+    db->replaceDocument(collectionName, id, serializedTransaction);
+}
 }

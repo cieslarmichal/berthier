@@ -15,6 +15,7 @@ public:
 
     void add(const Transaction&) override;
     std::vector<Transaction> getAll() const override;
+    void update(const std::string& id, const Transaction&) override;
 
 private:
     std::unique_ptr<DocumentBasedDb> db;

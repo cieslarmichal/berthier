@@ -14,5 +14,8 @@ public:
     MOCK_METHOD(std::vector<std::string>, getAllDocuments, (const std::string& collectionName),
                 (const override));
     MOCK_METHOD(void, dropCollection, (const std::string& collectionName), (override));
+    MOCK_METHOD(void, replaceDocument,
+                (const std::string& collectionName, const std::string& id, const std::string& jsonDocument),
+                (override));
 };
 }

@@ -10,8 +10,8 @@ using namespace ::testing;
 
 namespace
 {
-const auto transaction1 = Transaction{"water", "shop", "food", 3, utils::Date{"2021-09-10"}};
-const auto transaction2 = Transaction{"orange", "fruit shop", "food", 1, utils::Date{"2021-09-11"}};
+const auto transaction1 = Transaction{"id", "water", "shop", "food", 3, utils::Date{"2021-09-10"}};
+const auto transaction2 = Transaction{"id", "orange", "fruit shop", "food", 1, utils::Date{"2021-09-11"}};
 const auto transaction1Serialized =
     R"({"name":"water","recipient":"shop","category":"food","amount":3,"date":"2021-09-10"})";
 const auto transaction2Serialized =
@@ -21,6 +21,7 @@ const std::vector<std::string> transactionsSerializedWithTwoTransactions{transac
                                                                          transaction2Serialized};
 const std::vector<std::string> emptyTransactionsSerialized{};
 const std::string collectionName{"transactions"};
+const auto transactionId{"id"};
 }
 
 class TransactionDbTest : public Test
@@ -38,15 +39,8 @@ TEST_F(TransactionDbTest, addTransaction)
 {
     EXPECT_CALL(*transactionSerializer, serialize(transaction1)).WillOnce(Return(transaction1Serialized));
     EXPECT_CALL(*documentsDb, insertDocument(collectionName, transaction1Serialized));
-    EXPECT_CALL(*transactionSerializer, deserialize(transaction1Serialized)).WillOnce(Return(transaction1));
-    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName))
-        .WillOnce(Return(transactionsSerializedWithOneTransaction));
 
     db.add(transaction1);
-
-    const auto allTransactions = db.getAll();
-    ASSERT_EQ(allTransactions.size(), 1);
-    ASSERT_EQ(allTransactions[0], transaction1);
 }
 
 TEST_F(TransactionDbTest, givenNoTransactions_shouldReturnEmptyTransactions)
@@ -76,4 +70,12 @@ TEST_F(TransactionDbTest, givenTwoTransactionsInserted_shouldReturnTwoTransactio
     ASSERT_EQ(allTransactions.size(), 2);
     ASSERT_EQ(allTransactions[0], transaction1);
     ASSERT_EQ(allTransactions[1], transaction2);
+}
+
+TEST_F(TransactionDbTest, updateTransaction)
+{
+    EXPECT_CALL(*transactionSerializer, serialize(transaction1)).WillOnce(Return(transaction1Serialized));
+    EXPECT_CALL(*documentsDb, replaceDocument(collectionName, transactionId, transaction1Serialized));
+
+    db.update(transactionId, transaction1);
 }

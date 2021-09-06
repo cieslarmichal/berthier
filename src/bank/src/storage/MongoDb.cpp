@@ -11,9 +11,15 @@ using bsoncxx::builder::stream::document;
 using bsoncxx::builder::stream::finalize;
 using bsoncxx::builder::stream::open_array;
 using bsoncxx::builder::stream::open_document;
+using bsoncxx::stdx::string_view;
 
 namespace bank::storage
 {
+namespace
+{
+const std::string idField = "_id";
+}
+
 MongoDb::MongoDb(const std::string& host, unsigned port, const std::string& dbName)
 {
     mongocxx::uri uri{"mongodb://" + host + ":" + std::to_string(port)};
@@ -23,9 +29,9 @@ MongoDb::MongoDb(const std::string& host, unsigned port, const std::string& dbNa
 
 void MongoDb::insertDocument(const std::string& collectionName, const std::string& jsonDocument)
 {
+    auto collection = db[collectionName];
     const auto bsonObj = bsoncxx::from_json(jsonDocument);
     const auto view = bsonObj.view();
-    auto collection = db[collectionName];
     collection.insert_one(view);
 }
 
@@ -48,6 +54,16 @@ void MongoDb::dropCollection(const std::string& collectionName)
 {
     auto collection = db[collectionName];
     collection.drop();
+}
+
+void MongoDb::replaceDocument(const std::string& collectionName, const std::string& id,
+                              const std::string& jsonDocument)
+{
+    auto collection = db[collectionName];
+    const auto bsonObj = bsoncxx::from_json(jsonDocument);
+    const auto view = bsonObj.view();
+    collection.replace_one(document{} << idField << bsoncxx::oid{bsoncxx::stdx::string_view{id}} << finalize,
+                           view);
 }
 
 }

@@ -11,5 +11,6 @@ class TransactionRepositoryMock : public TransactionRepository
 public:
     MOCK_METHOD(void, add, (const Transaction&), (override));
     MOCK_METHOD(std::vector<Transaction>, getAll, (), (const override));
+    MOCK_METHOD(void, update, (const std::string& id, const Transaction&), (override));
 };
 }

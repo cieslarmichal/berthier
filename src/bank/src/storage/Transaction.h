@@ -10,6 +10,7 @@ namespace bank::storage
 {
 struct Transaction
 {
+    std::string id;
     std::string name;
     std::string recipient;
     std::string category;
@@ -29,9 +30,9 @@ inline bool operator==(const Transaction& lhs, const Transaction& rhs)
 
 inline std::ostream& operator<<(std::ostream& os, const Transaction& transaction)
 {
-    return os << "name: " << transaction.name << " category: " << transaction.category
-              << "recipient: " << transaction.recipient << " amount: " << transaction.amount
-              << " date: " << transaction.date;
+    return os << "id: " << transaction.id << "name: " << transaction.name
+              << " category: " << transaction.category << "recipient: " << transaction.recipient
+              << " amount: " << transaction.amount << " date: " << transaction.date;
 }
 
 }

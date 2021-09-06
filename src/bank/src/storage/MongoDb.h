@@ -16,6 +16,8 @@ public:
     void insertDocument(const std::string& collectionName, const std::string& jsonDocument) override;
     std::vector<std::string> getAllDocuments(const std::string& collectionName) const override;
     void dropCollection(const std::string& collectionName) override;
+    void replaceDocument(const std::string& collectionName, const std::string& id,
+                         const std::string& jsonDocument) override;
 
 private:
     mongocxx::instance instance;
