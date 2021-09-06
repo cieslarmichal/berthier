@@ -17,7 +17,8 @@ const auto transaction1Serialized =
 const auto transaction2Serialized =
     R"({"name":"orange","recipient":"fruit shop","category":"food","amount":1,"date":"2021-09-11"})";
 const std::vector<std::string> transactionsSerializedWithOneTransaction{transaction1Serialized};
-const std::vector<std::string> transactionsSerializedWithTwoTransactions{transaction1Serialized, transaction2Serialized};
+const std::vector<std::string> transactionsSerializedWithTwoTransactions{transaction1Serialized,
+                                                                         transaction2Serialized};
 const std::vector<std::string> emptyTransactionsSerialized{};
 const std::string collectionName{"transactions"};
 }
@@ -27,7 +28,8 @@ class TransactionDbTest : public Test
 public:
     std::unique_ptr<DocumentBasedDbMock> documentsDbInit{std::make_unique<StrictMock<DocumentBasedDbMock>>()};
     DocumentBasedDbMock* documentsDb{documentsDbInit.get()};
-    std::unique_ptr<TransactionSerializerMock> transactionSerializerInit{std::make_unique<StrictMock<TransactionSerializerMock>>()};
+    std::unique_ptr<TransactionSerializerMock> transactionSerializerInit{
+        std::make_unique<StrictMock<TransactionSerializerMock>>()};
     TransactionSerializerMock* transactionSerializer{transactionSerializerInit.get()};
     TransactionDb db{std::move(documentsDbInit), std::move(transactionSerializerInit)};
 };
@@ -37,7 +39,8 @@ TEST_F(TransactionDbTest, addTransaction)
     EXPECT_CALL(*transactionSerializer, serialize(transaction1)).WillOnce(Return(transaction1Serialized));
     EXPECT_CALL(*documentsDb, insertDocument(collectionName, transaction1Serialized));
     EXPECT_CALL(*transactionSerializer, deserialize(transaction1Serialized)).WillOnce(Return(transaction1));
-    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName)).WillOnce(Return(transactionsSerializedWithOneTransaction));
+    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName))
+        .WillOnce(Return(transactionsSerializedWithOneTransaction));
 
     db.add(transaction1);
 
@@ -63,7 +66,8 @@ TEST_F(TransactionDbTest, givenTwoTransactionsInserted_shouldReturnTwoTransactio
     EXPECT_CALL(*documentsDb, insertDocument(collectionName, transaction2Serialized));
     EXPECT_CALL(*transactionSerializer, deserialize(transaction1Serialized)).WillOnce(Return(transaction1));
     EXPECT_CALL(*transactionSerializer, deserialize(transaction2Serialized)).WillOnce(Return(transaction2));
-    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName)).WillOnce(Return(transactionsSerializedWithTwoTransactions));
+    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName))
+        .WillOnce(Return(transactionsSerializedWithTwoTransactions));
     db.add(transaction1);
     db.add(transaction2);
 

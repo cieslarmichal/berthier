@@ -1,19 +1,22 @@
 #pragma once
 
-#include <string>
-#include <date/date.h>
 #include <chrono>
+#include <date/date.h>
+#include <string>
 
 namespace utils
 {
-struct Date
+class Date
 {
+public:
     explicit Date();
     Date(unsigned year, unsigned month, unsigned day);
     Date(const std::string&);
 
     std::string toString() const;
+    friend bool operator==(const Date& lhs, const Date& rhs);
 
+private:
     date::year_month_day yearMonthDay;
 };
 

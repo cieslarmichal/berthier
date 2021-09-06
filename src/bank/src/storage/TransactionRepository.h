@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Transaction.h"
 #include <vector>
+
+#include "Transaction.h"
 
 namespace bank::storage
 {

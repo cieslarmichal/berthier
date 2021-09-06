@@ -27,18 +27,16 @@ TEST_F(DateTest, createDateFromYearMonthDay)
 {
     const auto date = Date{year, month, day};
 
-    ASSERT_EQ(date.yearMonthDay.year(), date::year{year});
-    ASSERT_EQ(date.yearMonthDay.month(), date::month{month});
-    ASSERT_EQ(date.yearMonthDay.day(), date::day{day});
+    const auto actualDateAsString = date.toString();
+    ASSERT_EQ(actualDateAsString, dateAsString);
 }
 
 TEST_F(DateTest, createDateFromString)
 {
     const auto date = Date{dateAsString};
 
-    ASSERT_EQ(date.yearMonthDay.year(), date::year{year});
-    ASSERT_EQ(date.yearMonthDay.month(), date::month{month});
-    ASSERT_EQ(date.yearMonthDay.day(), date::day{day});
+    const auto actualDateAsString = date.toString();
+    ASSERT_EQ(actualDateAsString, dateAsString);
 }
 
 TEST_F(DateTest, toString)
@@ -49,4 +47,3 @@ TEST_F(DateTest, toString)
 
     ASSERT_EQ(actualDateAsString, dateAsString);
 }
-

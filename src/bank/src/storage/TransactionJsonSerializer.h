@@ -1,7 +1,8 @@
 #pragma once
 
-#include "TransactionSerializer.h"
 #include "nlohmann/json.hpp"
+
+#include "TransactionSerializer.h"
 
 namespace bank::storage
 {

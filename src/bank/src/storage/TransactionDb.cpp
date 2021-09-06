@@ -2,7 +2,8 @@
 
 namespace bank::storage
 {
-TransactionDb::TransactionDb(std::unique_ptr<DocumentBasedDb> db, std::unique_ptr<TransactionSerializer> serializer)
+TransactionDb::TransactionDb(std::unique_ptr<DocumentBasedDb> db,
+                             std::unique_ptr<TransactionSerializer> serializer)
     : db{std::move(db)}, serializer{std::move(serializer)}, collectionName{"transactions"}
 {
 }

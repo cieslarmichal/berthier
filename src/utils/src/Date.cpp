@@ -25,9 +25,7 @@ Date::Date(unsigned year, unsigned month, unsigned day)
 {
 }
 
-Date::Date(const std::string& dateAsString) : yearMonthDay{initializeYearMonthDayFromString(dateAsString)}
-{
-}
+Date::Date(const std::string& dateAsString) : yearMonthDay{initializeYearMonthDayFromString(dateAsString)} {}
 
 std::string Date::toString() const
 {
@@ -43,6 +41,6 @@ bool operator==(const Date& lhs, const Date& rhs)
 
 std::ostream& operator<<(std::ostream& ss, const Date& date)
 {
-    return ss << date.yearMonthDay;
+    return ss << date.toString();
 }
 }

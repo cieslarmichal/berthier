@@ -1,9 +1,10 @@
 #pragma once
 
-#include "TransactionRepository.h"
-#include "DocumentBasedDb.h"
-#include "TransactionSerializer.h"
 #include <memory>
+
+#include "DocumentBasedDb.h"
+#include "TransactionRepository.h"
+#include "TransactionSerializer.h"
 
 namespace bank::storage
 {
