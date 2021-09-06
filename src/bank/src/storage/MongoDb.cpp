@@ -17,6 +17,24 @@ namespace bank::storage
 {
 namespace
 {
+template <class T>
+std::vector<std::string> findDocumentsByFieldInDb(const mongocxx::database& db,
+                                                  const std::string& collectionName,
+                                                  const std::string& fieldName, const T& fieldValue)
+{
+    auto collection = db[collectionName];
+    mongocxx::cursor cursor = collection.find(document{} << fieldName << fieldValue << finalize);
+
+    std::vector<std::string> documents;
+
+    for (const auto& doc : cursor)
+    {
+        documents.push_back(bsoncxx::to_json(doc));
+    }
+
+    return documents;
+}
+
 const std::string idField = "_id";
 }
 
@@ -35,7 +53,7 @@ void MongoDb::insertDocument(const std::string& collectionName, const std::strin
     collection.insert_one(view);
 }
 
-std::vector<std::string> MongoDb::getAllDocuments(const std::string& collectionName) const
+std::vector<std::string> MongoDb::findAllDocuments(const std::string& collectionName) const
 {
     auto collection = db[collectionName];
     mongocxx::cursor cursor = collection.find(document{} << finalize);
@@ -48,6 +66,19 @@ std::vector<std::string> MongoDb::getAllDocuments(const std::string& collectionN
     }
 
     return documents;
+}
+
+std::vector<std::string> MongoDb::findDocumentsByField(const std::string& collectionName,
+                                                       const std::string& fieldName,
+                                                       const std::string& fieldValue) const
+{
+    return findDocumentsByFieldInDb(db, collectionName, fieldName, fieldValue);
+}
+
+std::vector<std::string> MongoDb::findDocumentsByField(const std::string& collectionName,
+                                                       const std::string& fieldName, int fieldValue) const
+{
+    return findDocumentsByFieldInDb(db, collectionName, fieldName, fieldValue);
 }
 
 void MongoDb::dropCollection(const std::string& collectionName)

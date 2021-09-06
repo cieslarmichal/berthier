@@ -16,7 +16,7 @@ void TransactionDb::add(const Transaction& transaction)
 
 std::vector<Transaction> TransactionDb::getAll() const
 {
-    const auto allTransactionsSerialized = db->getAllDocuments(collectionName);
+    const auto allTransactionsSerialized = db->findAllDocuments(collectionName);
 
     std::vector<Transaction> transactions;
 

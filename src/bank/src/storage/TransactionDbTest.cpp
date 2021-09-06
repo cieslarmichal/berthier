@@ -45,7 +45,7 @@ TEST_F(TransactionDbTest, addTransaction)
 
 TEST_F(TransactionDbTest, givenNoTransactions_shouldReturnEmptyTransactions)
 {
-    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName)).WillOnce(Return(emptyTransactionsSerialized));
+    EXPECT_CALL(*documentsDb, findAllDocuments(collectionName)).WillOnce(Return(emptyTransactionsSerialized));
 
     const auto allTransactions = db.getAll();
 
@@ -60,7 +60,7 @@ TEST_F(TransactionDbTest, givenTwoTransactionsInserted_shouldReturnTwoTransactio
     EXPECT_CALL(*documentsDb, insertDocument(collectionName, transaction2Serialized));
     EXPECT_CALL(*transactionSerializer, deserialize(transaction1Serialized)).WillOnce(Return(transaction1));
     EXPECT_CALL(*transactionSerializer, deserialize(transaction2Serialized)).WillOnce(Return(transaction2));
-    EXPECT_CALL(*documentsDb, getAllDocuments(collectionName))
+    EXPECT_CALL(*documentsDb, findAllDocuments(collectionName))
         .WillOnce(Return(transactionsSerializedWithTwoTransactions));
     db.add(transaction1);
     db.add(transaction2);
