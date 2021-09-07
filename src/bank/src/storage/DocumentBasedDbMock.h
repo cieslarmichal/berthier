@@ -29,5 +29,6 @@ public:
                 (const std::string& collectionName, const std::string& id, const std::string& jsonDocument),
                 (override));
     MOCK_METHOD(void, removeDocument, (const std::string& collectionName, const std::string& id), (override));
+    MOCK_METHOD(unsigned, countDocuments, (const std::string& collectionName), (const override));
 };
 }

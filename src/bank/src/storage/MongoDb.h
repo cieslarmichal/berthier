@@ -28,6 +28,7 @@ public:
     void replaceDocument(const std::string& collectionName, const std::string& id,
                          const std::string& jsonDocument) override;
     void removeDocument(const std::string& collectionName, const std::string& id) override;
+    unsigned countDocuments(const std::string& collectionName) const override;
 
 private:
     mongocxx::instance instance;

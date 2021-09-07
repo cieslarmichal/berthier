@@ -137,4 +137,10 @@ void MongoDb::removeDocument(const std::string& collectionName, const std::strin
     }
 }
 
+unsigned MongoDb::countDocuments(const std::string& collectionName) const
+{
+    auto collection = db[collectionName];
+    return collection.count_documents(document{} << finalize);
+}
+
 }

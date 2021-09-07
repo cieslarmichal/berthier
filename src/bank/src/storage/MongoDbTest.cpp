@@ -76,9 +76,13 @@ public:
     const std::string collectionName12{"collection12"};
     const std::string collectionName13{"collection13"};
     const std::string collectionName14{"collection14"};
+    const std::string collectionName15{"collection15"};
+    const std::string collectionName16{"collection16"};
     const std::vector<std::string> collections{
-        collectionName1, collectionName2, collectionName3, collectionName4,  collectionName5, collectionName6,
-        collectionName7, collectionName8, collectionName9, collectionName10, collectionName11, collectionName12, collectionName13, collectionName13};
+        collectionName1,  collectionName2,  collectionName3,  collectionName4,
+        collectionName5,  collectionName6,  collectionName7,  collectionName8,
+        collectionName9,  collectionName10, collectionName11, collectionName12,
+        collectionName13, collectionName14, collectionName15, collectionName16};
 };
 
 std::unique_ptr<MongoDb> MongoDbTest::db = std::make_unique<MongoDb>(host, port, dbName);
@@ -210,7 +214,6 @@ TEST_F(MongoDbTest, givenNoDocumentsMatchingFilterLike_findDocumentsByFieldValue
     ASSERT_EQ(allDocuments.size(), 0);
 }
 
-
 TEST_F(MongoDbTest, givenDocumentsMatchingFilterLike_findDocumentsByFieldValueLike_shouldReturnDocuments)
 {
     db->insertDocument(collectionName12, document4);
@@ -249,4 +252,20 @@ TEST_F(MongoDbTest, givenDocumentMatchingId_shouldDeleteDocument)
 
     const auto allDocuments = db->findAllDocuments(collectionName14);
     ASSERT_EQ(allDocuments.size(), 0);
+}
+
+TEST_F(MongoDbTest, givenNoDocumentsInCollection_countDocuments_shouldReturnZero)
+{
+    const auto numberOfDocuments = db->countDocuments(collectionName15);
+
+    ASSERT_EQ(numberOfDocuments, 0);
+}
+
+TEST_F(MongoDbTest, givenOneDocumentInCollection_countDocuments_shouldReturnOne)
+{
+    db->insertDocument(collectionName16, document1);
+
+    const auto numberOfDocuments = db->countDocuments(collectionName16);
+
+    ASSERT_EQ(numberOfDocuments, 1);
 }
