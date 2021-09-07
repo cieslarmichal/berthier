@@ -28,5 +28,6 @@ public:
     MOCK_METHOD(void, replaceDocument,
                 (const std::string& collectionName, const std::string& id, const std::string& jsonDocument),
                 (override));
+    MOCK_METHOD(void, removeDocument, (const std::string& collectionName, const std::string& id), (override));
 };
 }

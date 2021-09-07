@@ -27,6 +27,7 @@ public:
     void dropCollection(const std::string& collectionName) override;
     void replaceDocument(const std::string& collectionName, const std::string& id,
                          const std::string& jsonDocument) override;
+    void removeDocument(const std::string& collectionName, const std::string& id) override;
 
 private:
     mongocxx::instance instance;

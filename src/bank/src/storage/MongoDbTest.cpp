@@ -32,6 +32,7 @@ const auto expectedField3InDocument5 = R"("date" : "2021-09-05")";
 const auto host{"localhost"};
 const unsigned port{27017};
 const auto dbName{"testDb"};
+const auto nonExistingId{"non_existing_id"};
 }
 
 class MongoDbTest : public Test
@@ -73,9 +74,11 @@ public:
     const std::string collectionName10{"collection10"};
     const std::string collectionName11{"collection11"};
     const std::string collectionName12{"collection12"};
+    const std::string collectionName13{"collection13"};
+    const std::string collectionName14{"collection14"};
     const std::vector<std::string> collections{
         collectionName1, collectionName2, collectionName3, collectionName4,  collectionName5, collectionName6,
-        collectionName7, collectionName8, collectionName9, collectionName10, collectionName11, collectionName12};
+        collectionName7, collectionName8, collectionName9, collectionName10, collectionName11, collectionName12, collectionName13, collectionName13};
 };
 
 std::unique_ptr<MongoDb> MongoDbTest::db = std::make_unique<MongoDb>(host, port, dbName);
@@ -173,9 +176,9 @@ TEST_F(MongoDbTest, dropCollection)
     ASSERT_EQ(allDocuments.size(), 0);
 }
 
-TEST_F(MongoDbTest, givenNonExisingDocumentToReplace_shouldNotInsertNewElement)
+TEST_F(MongoDbTest, givenNonExisingDocumentToReplace_shouldNotInsertNewElementAndNoThow)
 {
-    db->replaceDocument(collectionName9, "61366e1b6fd06b68e332f572", document1);
+    ASSERT_NO_THROW(db->replaceDocument(collectionName9, nonExistingId, document1));
 
     const auto allDocuments = db->findAllDocuments(collectionName9);
     ASSERT_EQ(allDocuments.size(), 0);
@@ -222,4 +225,28 @@ TEST_F(MongoDbTest, givenDocumentsMatchingFilterLike_findDocumentsByFieldValueLi
     ASSERT_TRUE(containsField(allDocuments[1], expectedField1InDocument5));
     ASSERT_TRUE(containsField(allDocuments[1], expectedField2InDocument5));
     ASSERT_TRUE(containsField(allDocuments[1], expectedField3InDocument5));
+}
+
+TEST_F(MongoDbTest, givenNoDocumentMatchingId_shouldDeleteNoDocumentsAndNoThrow)
+{
+    db->insertDocument(collectionName13, document4);
+
+    ASSERT_NO_THROW(db->removeDocument(collectionName13, nonExistingId));
+
+    const auto allDocuments = db->findAllDocuments(collectionName13);
+    ASSERT_EQ(allDocuments.size(), 1);
+}
+
+TEST_F(MongoDbTest, givenDocumentMatchingId_shouldDeleteDocument)
+{
+    db->insertDocument(collectionName14, document1);
+    const auto allDocumentsBeforeReplace = db->findAllDocuments(collectionName14);
+    ASSERT_EQ(allDocumentsBeforeReplace.size(), 1);
+    const auto documentJson = nlohmann::json::parse(allDocumentsBeforeReplace[0]);
+    const auto documentId = documentJson.at(idField).at(nestedIdField).get<std::string>();
+
+    db->removeDocument(collectionName14, documentId);
+
+    const auto allDocuments = db->findAllDocuments(collectionName14);
+    ASSERT_EQ(allDocuments.size(), 0);
 }

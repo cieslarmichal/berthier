@@ -112,8 +112,29 @@ void MongoDb::replaceDocument(const std::string& collectionName, const std::stri
     auto collection = db[collectionName];
     const auto bsonObj = bsoncxx::from_json(jsonDocument);
     const auto view = bsonObj.view();
-    collection.replace_one(document{} << idField << bsoncxx::oid{bsoncxx::stdx::string_view{id}} << finalize,
-                           view);
+    try
+    {
+        collection.replace_one(
+            document{} << idField << bsoncxx::oid{bsoncxx::stdx::string_view{id}} << finalize, view);
+    }
+    catch (const std::exception& error)
+    {
+        std::cerr << error.what() << std::endl;
+    }
+}
+
+void MongoDb::removeDocument(const std::string& collectionName, const std::string& id)
+{
+    auto collection = db[collectionName];
+    try
+    {
+        collection.delete_one(document{} << idField << bsoncxx::oid{bsoncxx::stdx::string_view{id}}
+                                         << finalize);
+    }
+    catch (const std::exception& error)
+    {
+        std::cerr << error.what() << std::endl;
+    }
 }
 
 }
