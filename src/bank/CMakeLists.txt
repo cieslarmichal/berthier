@@ -2,6 +2,7 @@ set(SOURCES
         src/storage/TransactionDb.cpp
         src/storage/MongoDb.cpp
         src/storage/TransactionJsonSerializer.cpp
+        src/service/MBankClient.cpp
         )
 
 set(UT_SOURCES
@@ -9,6 +10,7 @@ set(UT_SOURCES
         src/storage/MongoDbTest.cpp
         src/storage/MongoDbTest.cpp
         src/storage/TransactionJsonSerializerTest.cpp
+        src/service/MBankClientTest.cpp
         )
 
 
